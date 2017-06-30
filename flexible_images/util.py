@@ -38,8 +38,10 @@ def aspect_ratio_percent(image):
 def get_thumbnail_engine():
     engine = getattr(settings, "FLEXIBLE_IMAGE_ENGINE", "sorl")
 
-    if not engine in possible_engines():
-        raise FlexibleImageError("FLEXIBLE_IMAGE_ENGINE must be one of: 'sorl', None")
+    if engine not in possible_engines():
+        raise FlexibleImageError(
+            "FLEXIBLE_IMAGE_ENGINE must be one of: 'sorl', None"
+        )
 
     return engine
 
@@ -62,7 +64,8 @@ def get_thumbnail_shim(image, width):
 
 
 def get_image_sizes(image):
-    """Given an ImageField `image`, returns a list of images sizes in this
+    """
+    Given an ImageField `image`, returns a list of images sizes in this
     form:
 
     [
@@ -72,8 +75,8 @@ def get_image_sizes(image):
             "height": 960
         },
         [...]
-    ]"""
-
+    ]
+    """
     # It is possible to have the same width appear more than once, if
     # THUMBNAIL_UPSCALE is set to False and the image's width is less than the
     # largest value in FLEXIBLE_IMAGE_SIZES. So keep track of widths and
@@ -98,9 +101,13 @@ def get_image_sizes(image):
     return sizes
 
 
-def get_template_context(src, container="div", classes="", inner_classes="", alt="", background_image=False, no_css=False, aria_hidden=False):
-    """Returns a template context for a flexible image template
-    tag implementation."""
+def get_template_context(src, container="div", classes="", inner_classes="",
+                         alt="", background_image=False, no_css=False,
+                         aria_hidden=False):
+    """
+    Return a template context for a flexible image template
+    tag implementation.
+    """
     context = {
         "container": container,
         "classes": classes,
@@ -126,7 +133,9 @@ def get_template_context(src, container="div", classes="", inner_classes="", alt
     context["image"] = sizes[0]
 
     context["image_sizes_json"] = json.dumps(sizes)
-    srcset_items = ["{} {}w".format(size["url"], size["width"]) for size in sizes]
+    srcset_items = [
+        "{} {}w".format(size["url"], size["width"]) for size in sizes
+    ]
 
     context["image_sizes_srcset"] = ", ".join(srcset_items)
     return context

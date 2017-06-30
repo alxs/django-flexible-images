@@ -20,7 +20,9 @@ class UtilsTest(FlexibleImageTestCase):
         # Ensure that giving an invalid thumbnail engine causes
         # get_thumbnail_engine to fail.
         with self.settings(FLEXIBLE_IMAGE_ENGINE="invalid"):
-            self.assertRaises(util.FlexibleImageError, util.get_thumbnail_engine)
+            self.assertRaises(
+                util.FlexibleImageError, util.get_thumbnail_engine
+            )
 
         # Ensure that it will give the correct thumbnail engine if it is set
         # to something valid.
